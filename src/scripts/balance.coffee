@@ -56,7 +56,8 @@ $ ->
   
   yAxis = d3.svg.axis()
     .scale(y)
-    .orient("left")
+    .orient("right")
+    .tickSize(width)
 
   line = d3.svg.line().x((d) ->
     x d.date
@@ -74,14 +75,14 @@ $ ->
   y.domain [0, maxValue]
 
   svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call xAxis
-  svg.append("g").attr("class", "y axis").call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style("text-anchor", "end").text "Saldo"
+  gy = svg.append("g").attr("class", "y axis").call(yAxis)
+  gy.append("text").attr("transform", "rotate(-90)").attr("y", 0).attr("dy", ".71em").style("text-anchor", "end").text "Saldo"
   svg.append("path").datum(data).attr("class", "line").attr "d", line
 
   # Tooltip div creation
   tooltip = d3.select("body").append("div")   
     .attr("class", "tooltip")               
     .style("visibility", 'hidden')
-    .text('charlot!')
 
   # Adding dots
   svg.selectAll("dot")
@@ -100,5 +101,14 @@ $ ->
       tooltip.style("top", (event.pageY - 10) + "px").style "left", (event.pageX + 10) + "px"
     ).on "mouseout", ->
       tooltip.style "visibility", "hidden"
+
+  # Some modifications to the y axis
+  gy.selectAll("g")
+    .filter((d) -> d)
+    .classed("minor", true)
+
+  gy.selectAll("text")
+    .attr("x", 4)
+    .attr("dy", -4)
 
   return
