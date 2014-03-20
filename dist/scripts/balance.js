@@ -1,6 +1,6 @@
 (function() {
   $(function() {
-    var data, dateParser, height, line, margin, maxValue, parseDate, svg, width, x, xAxis, y, yAxis;
+    var data, dateParser, height, line, margin, maxValue, parseDate, svg, tooltip, width, x, xAxis, y, yAxis;
     dateParser = d3.time.format("%d-%m-%Y").parse;
     data = [
       {
@@ -97,10 +97,18 @@
     svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis);
     svg.append("g").attr("class", "y axis").call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style("text-anchor", "end").text("Saldo");
     svg.append("path").datum(data).attr("class", "line").attr("d", line);
+    tooltip = d3.select("body").append("div").attr("class", "tooltip").style("visibility", 'hidden').text('charlot!');
     svg.selectAll("dot").data(data).enter().append("circle").attr("class", "dot").attr("r", 3.5).attr("cx", function(d) {
       return x(d.date);
     }).attr("cy", function(d) {
       return y(d.amount);
+    }).on("mouseover", function(d) {
+      tooltip.style("visibility", "visible");
+      return tooltip.text(d.amount);
+    }).on("mousemove", function() {
+      return tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
+    }).on("mouseout", function() {
+      return tooltip.style("visibility", "hidden");
     });
   });
 

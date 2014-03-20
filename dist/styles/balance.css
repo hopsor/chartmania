@@ -6,8 +6,6 @@ body {
   stroke: black;
   shape-rendering: crispEdges; }
 
-.x.axis path {
-  display: none; }
 
 .line {
   fill: none;
@@ -17,3 +15,15 @@ body {
 .dot {
   fill: steelblue;
   stroke-width: 0.5px; }
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 60px;
+  height: 12px;
+  padding: 8px;
+  font: 10px sans-serif;
+  background: #dddddd;
+  border: solid 1px #aaaaaa;
+  border-radius: 8px;
+  pointer-events: none; }

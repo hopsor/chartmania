@@ -76,11 +76,29 @@ $ ->
   svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call xAxis
   svg.append("g").attr("class", "y axis").call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style("text-anchor", "end").text "Saldo"
   svg.append("path").datum(data).attr("class", "line").attr "d", line
-  
+
+  # Tooltip div creation
+  tooltip = d3.select("body").append("div")   
+    .attr("class", "tooltip")               
+    .style("visibility", 'hidden')
+    .text('charlot!')
+
   # Adding dots
-  svg.selectAll("dot").data(data).enter().append("circle").attr("class", "dot").attr("r", 3.5).attr("cx", (d) ->
-    x d.date
-  ).attr "cy", (d) ->
-    y d.amount
+  svg.selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("class", "dot")
+    .attr("r", 3.5).attr("cx", (d) ->
+      x d.date
+    ).attr("cy", (d) ->
+      y d.amount
+    ).on("mouseover", (d) ->
+      tooltip.style "visibility", "visible"
+      tooltip.text(d.amount)
+    ).on("mousemove", ->
+      tooltip.style("top", (event.pageY - 10) + "px").style "left", (event.pageX + 10) + "px"
+    ).on "mouseout", ->
+      tooltip.style "visibility", "hidden"
 
   return
