@@ -38,7 +38,7 @@ module.exports = (grunt)->
       server:
         options:
           hostname: '0.0.0.0'
-          port: 9001
+          port: 3000
           base: "dist"
           keepalive: false
 
